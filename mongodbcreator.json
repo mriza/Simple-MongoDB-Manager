@@ -1,0 +1,8 @@
+{
+  "server lokal": {
+    "url": "mongodb://admin:password@localhost:27017"
+  },
+  "server ga tau dimana": {
+    "url": "mongodb://user:password@192.168.1.100:27017"
+  }
+}
