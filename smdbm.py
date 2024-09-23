@@ -7,6 +7,12 @@ import string
 import json
 import os
 import threading
+import logging
+
+# Configure logging
+LOG_FILE = "smdbm.log"
+logging.basicConfig(filename=LOG_FILE, level=logging.INFO, 
+                    format='%(asctime)s - %(levelname)s - %(message)s')
 
 CONFIG_FILE = "smdbm.json"
 USER_ROLES = ["read", "readWrite", "dbAdmin", "dbOwner"]
@@ -16,7 +22,9 @@ def load_servers():
     if os.path.exists(CONFIG_FILE):
         with open(CONFIG_FILE, 'r') as file:
             data = json.load(file)
+            logging.info("Loaded server configurations from smdbm.json")
             return data
+    logging.warning("Configuration file smdbm.json not found.")
     return {}
 
 def generate_random_password(length=10):
@@ -35,15 +43,18 @@ def connect_to_mongodb(db_name, username, selected_server_url, selected_role):
             db = client[db_name]
             test_collection = db['test_collection']
             test_collection.insert_one({"test_field": "test_value"})
+            logging.info(f"Database '{db_name}' created and test collection inserted.")
 
             # Generate a random password for the user
             password = generate_random_password()
 
             # Create a user for the database with the selected role
             db.command("createUser", username, pwd=password, roles=[selected_role])
+            logging.info(f"User '{username}' with role '{selected_role}' created successfully in database '{db_name}'.")
 
             # Generate the connection string for the new user
             generated_url = f"mongodb://{username}:{password}@{selected_server_url.split('@')[-1].rstrip('/')}/{db_name}"
+            logging.info(f"Generated connection URL: {generated_url}")
 
             # Update UI in the main thread
             result_text.config(state=NORMAL)
@@ -57,6 +68,7 @@ def connect_to_mongodb(db_name, username, selected_server_url, selected_role):
             messagebox.showinfo("Success", f"Database '{db_name}' and user '{username}' created successfully!")
 
         except Exception as e:
+            logging.error(f"Failed to connect to MongoDB: {str(e)}")
             messagebox.showerror("Error", f"Failed to connect to MongoDB: {str(e)}")
             generated_url = None
 
@@ -72,18 +84,22 @@ def on_submit():
 
     if not db_name or not username:
         messagebox.showwarning("Input Error", "Both database name and username are required!")
+        logging.warning("Submission failed: Database name or username is missing.")
         return
 
     if not selected_server_name:
         messagebox.showwarning("Selection Error", "Please select a server!")
+        logging.warning("Submission failed: Server selection is missing.")
         return
 
     if not selected_role:
         messagebox.showwarning("Selection Error", "Please select a user role!")
+        logging.warning("Submission failed: User role selection is missing.")
         return
 
     # Retrieve the actual connection URL based on the selected server name
     selected_server_url = servers[selected_server_name]['url']
+    logging.info(f"Connecting to server '{selected_server_name}' with URL '{selected_server_url}'")
     connect_to_mongodb(db_name, username, selected_server_url, selected_role)
 
 def copy_to_clipboard():
@@ -92,8 +108,10 @@ def copy_to_clipboard():
         root.clipboard_clear()
         root.clipboard_append(generated_url)
         messagebox.showinfo("Copied", "Connection URL copied to clipboard!")
+        logging.info("Connection URL copied to clipboard.")
     else:
         messagebox.showerror("Error", "No URL available to copy.")
+        logging.warning("Failed to copy URL: No URL available.")
 
 def populate_dropdowns():
     """Populate the dropdowns with available servers and roles."""
