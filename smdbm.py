@@ -8,7 +8,7 @@ import json
 import os
 import threading
 
-CONFIG_FILE = "mongodbcreator.json"
+CONFIG_FILE = "smdbm.json"
 USER_ROLES = ["read", "readWrite", "dbAdmin", "dbOwner"]
 
 def load_servers():
