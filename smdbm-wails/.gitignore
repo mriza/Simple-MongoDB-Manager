@@ -1,0 +1,28 @@
+# Build directory
+build/
+
+# Wails build output
+bin/
+
+# Go dependencies
+vendor/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Temporary files
+tmp/
+temp/
+
+# Node modules (if using npm/yarn for frontend)
+frontend/node_modules/

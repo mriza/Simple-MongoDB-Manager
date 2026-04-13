@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MongoDB Manager</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>MongoDB Manager</h1>
+        
+        <div class="form-group">
+            <label for="theme">Select Theme</label>
+            <select id="theme">
+                <option value="superhero">Superhero</option>
+                <option value="flatly">Flatly</option>
+                <option value="darkly">Darkly</option>
+                <option value="cyborg">Cyborg</option>
+                <option value="lumen">Lumen</option>
+                <option value="solar">Solar</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="dbName">Database Name</label>
+            <input type="text" id="dbName" placeholder="Enter database name">
+        </div>
+
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" placeholder="Enter username">
+        </div>
+
+        <div class="form-group">
+            <label for="server">Select MongoDB Server</label>
+            <select id="server">
+                <option value="">-- Select Server --</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="role">Select User Role</label>
+            <select id="role">
+                <option value="">-- Select Role --</option>
+                <option value="read">read</option>
+                <option value="readWrite">readWrite</option>
+                <option value="dbAdmin">dbAdmin</option>
+                <option value="dbOwner">dbOwner</option>
+            </select>
+        </div>
+
+        <button id="submitBtn" class="btn btn-success">Create Database & User</button>
+
+        <div class="form-group">
+            <label for="result">Generated Connection URL</label>
+            <div class="result-container">
+                <textarea id="result" readonly></textarea>
+                <button id="copyBtn" class="btn btn-info">Copy</button>
+            </div>
+        </div>
+
+        <div id="message"></div>
+    </div>
+
+    <script src="./app.js"></script>
+</body>
+</html>

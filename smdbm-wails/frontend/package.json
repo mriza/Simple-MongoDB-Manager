@@ -1,0 +1,12 @@
+{
+  "name": "smdbm-wails",
+  "version": "1.0.0",
+  "description": "MongoDB Manager - Wails Application",
+  "scripts": {
+    "build": "echo 'No build step required for vanilla JS'",
+    "dev": "echo 'Development mode'"
+  },
+  "keywords": ["wails", "mongodb", "gui"],
+  "author": "",
+  "license": "MIT"
+}
